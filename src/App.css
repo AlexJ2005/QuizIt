@@ -20,3 +20,68 @@
 .App-link {
   color: #09d3ac;
 }
+
+.Create-quiz{
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+
+}
+
+.create-quiz-form{
+  display: flex;
+  justify-content: space-around;
+ 
+}
+
+
+.navbar-links{
+  text-decoration: none;
+  margin: 1rem;
+  color: white;
+}
+
+.navbar-maintext{
+  color: white;
+  text-decoration: none;
+}
+
+
+.quizzes{
+ display: flex;
+ justify-content: center;
+}
+
+.quiz-container{
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-column-gap: 25px;
+  grid-row-gap: 20px;
+}
+
+.quiz-card{
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+  text-decoration: none;
+}
+
+.play-button{
+  text-decoration: none;
+}
+
+.questions{
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-content: flex-end;
+}
+
+.questions-container{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+}
