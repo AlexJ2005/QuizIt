@@ -6,6 +6,7 @@ import MainPage from './MainPage';
 import createQuiz from './createQuiz';
 import Result from './Result';
 import Navbar from './Navbar';
+import AdSense from 'react-adsense';
 
 class App extends React.Component {
 
@@ -17,6 +18,7 @@ render(){
       <Switch>
         <div>
           <Navbar/>
+          <AdSense.Google client='ca-pub-4301359057292170' slot='7806394673'/>
           <Route exact path="/" component={MainPage}/>
           <Route exact path='/quizDashBoard' component={quizDashBoard}/>
           <Route exact path='/quizDashBoard/:id' component={Quiz}/>
