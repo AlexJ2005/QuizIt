@@ -7,6 +7,8 @@ import {Redirect} from 'react-router'
 import Icon from '@material-ui/core/Icon';
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 
 
 const createQuiz = () => {
@@ -64,6 +66,17 @@ const createQuiz = () => {
         }
     }
 
+    const deleteQuestion = (individualQuestion) => {
+        let questionsCopy = [...questions]
+        questions.forEach((question, index) => {
+            if(question === individualQuestion){
+                questionsCopy.splice(index, 1)
+            }
+        })
+
+        setQuestions(questionsCopy)
+    }
+
 
     const onNameChange = (e) => {
         setName(e.target.value);
@@ -79,6 +92,9 @@ const createQuiz = () => {
                     return(<div key={index} className="create-quiz-form">
                         <TextField  onChange={(e) => questionChanged(e, index)} label="question" margin="normal" name="text"/>
                         <TextField  onChange={(e) => answerChanged(e, index)} label="answer" margin="normal" name="answer"/>
+                        <Button onClick={() => deleteQuestion(question)}>
+                            <DeleteIcon/>
+                        </Button>
                         {questionsError ? (<div style={{color: "red", margin: "0"}}><p>{questionsError}</p></div>) : null}
                         
                     </div>)
