@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
 import { TextField } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
 
 
 export default class quizDashBoard extends React.Component {
@@ -41,10 +42,10 @@ export default class quizDashBoard extends React.Component {
         return (
         <div>
           <div className="search-container">
-          <TextField label="Search for quizzes" name="searchbar" onChange={(e) => this.searchBarOnChange(e)}/>
-          <Button color="primary" size="small" onClick={() => this.submitQuery()}>Search for quizzes</Button>
+          <TextField variant="outlined" id="outlined-basic" label="Search for quizzes" name="searchbar" onChange={(e) => this.searchBarOnChange(e)}/>
+          <Button color="primary" size="large" onClick={() => this.submitQuery()}><SearchIcon/></Button>
           <br></br>
-          {(this.state.quizzes.length === 0 ? <div style={{alignContent: "center"}}><Typography >No quizzes were found</Typography> </div>: <div></div>)}
+          {(this.state.quizzes.length === 0 && this.state.query? <div style={{alignContent: "center"}}><Typography >No quizzes were found</Typography> </div>: <div></div>)}
           </div>
             <div className="quizzes">
               <div className="quiz-container">

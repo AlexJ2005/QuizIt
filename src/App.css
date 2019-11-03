@@ -25,7 +25,9 @@
 
 
 .search-container{
- text-align: center
+  margin-top: 1rem;
+  text-align: center;
+  height: 100%;
 }
 
 /*Mobile settings*/
