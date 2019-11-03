@@ -24,7 +24,6 @@ const createQuiz = () => {
     const validate = (questionsArray) => {
         let isValidated = false;
         questionsArray.map(question => {
-            console.log(question.text.length)
             if(question.text.length > 0 && question.answer.length > 0){
                 isValidated = true
             } else{
@@ -54,14 +53,12 @@ const createQuiz = () => {
 
     const sendQuiz = (questionsArray) => {
         const isValid = validate(questionsArray);
-        console.log(isValid)
         if(isValid){
             axios.post('https://grim-dungeon-58618.herokuapp.com/createQuiz', {name, questions}).then(res => {
             setQuizId(res.data._id)
             setRedirect(true)
             })
         } else{
-            console.log('Error detected')
             setQuestionsError('Question and answer cannot be blank')
         }
     }
@@ -75,12 +72,12 @@ const createQuiz = () => {
         })
 
         setQuestions(questionsCopy)
+        setQuestionsError('')
     }
 
 
     const onNameChange = (e) => {
         setName(e.target.value);
-        console.log(name)
     }
         return (
         <div className="Create-quiz">

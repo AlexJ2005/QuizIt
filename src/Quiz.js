@@ -24,7 +24,6 @@ export default class Quiz extends Component {
     componentDidMount(){
         axios.get(`https://grim-dungeon-58618.herokuapp.com/quiz/${this.props.match.params.id}`).then(response => {
             this.setState({loading: false,quiz: response.data});
-            console.log(this.state)
             let answersCopy = [...this.state.allAnswers]
             for(let i = 0; i < response.data.questions.length; i++){
                 answersCopy.push({userAnswer: ''})
@@ -41,20 +40,16 @@ export default class Quiz extends Component {
         e.preventDefault();
         axios.post(`https://grim-dungeon-58618.herokuapp.com/quiz/answer/${this.props.match.params.id}`, {allAnswers: this.state.allAnswers})
         .then(response => {
-            console.log(response.data)
             this.setState({gotAnswerFeedBack: true, answerFeedBack: response.data.answerFeedBack})
         })
     }
 
     handleChange = (e, index) => {
-
-        console.log(this.state.allAnswers)
         let allAnswersCopy = [...this.state.allAnswers];
         allAnswersCopy[index] = {userAnswer: e.target.value};
         this.setState({allAnswers: allAnswersCopy})
     }
 
-    
 
     render() {
     let {quiz} = this.state;
@@ -68,7 +63,7 @@ export default class Quiz extends Component {
                        <Typography align="center" variant="h1" color="textSecondary">{quiz.name}</Typography>
                        {quiz.questions.map((question, index) => {
                            return (
-                               <div className="questions-container">
+                               <div key={index} className="questions-container">
                                    <Typography variant="h6">{question.text}</Typography>
                                    <br/>
                                    <TextField label="Type your answer" type='text' onChange={(e) => this.handleChange(e, index)}></TextField >
@@ -90,7 +85,7 @@ export default class Quiz extends Component {
                         color: 'green'
                     }
                         return(
-                            <div>
+                            <div key={index}>
                                {(feedBack[key]=== false ?  <Card> <Typography style={wrongAnswerStyle}> x {this.state.quiz.questions[index].text} </Typography>     {this.state.quiz.questions[index].answer}</Card> : 
                                <Card> <Typography style={rightAnswerStyle}> √ {this.state.quiz.questions[index].text} </Typography>     {this.state.quiz.questions[index].answer}</Card>
                                )}
