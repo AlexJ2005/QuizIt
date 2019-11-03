@@ -57,7 +57,7 @@ export default class Quiz extends Component {
     
         return (
             <div className="questions">
-                <div >
+                <div>
                 {(this.state.loading ? <p>loading...</p> : 
                    <div>
                        <Typography align="center" variant="h1" color="textSecondary">{quiz.name}</Typography>
