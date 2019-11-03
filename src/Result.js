@@ -7,7 +7,7 @@ export default class Result extends Component {
             <div>
                <h1>Quiz was successfully created!</h1>
                <h2>To play your quiz, use this link </h2>
-               <Link to={{pathname: `../quizDashBoard/${this.props.location.state.id}`}}>{`localhost:300/quizDashBoard/${this.props.location.state.id}`}</Link>
+               <Link to={{pathname: `../quizDashBoard/${this.props.location.state.id}`}}>{`https://quizitgame.netlify.com/quizDashBoard/${this.props.location.state.id}`}</Link>
             </div>
         )
     }
