@@ -1,4 +1,4 @@
-const words = [
+export const words = [
   "frankrike",
   "brasilien",
   "spanien",
@@ -6,8 +6,7 @@ const words = [
   "portugal",
   "donald trump"
 ];
-
-const shuffle = array => {
+export const shuffle = array => {
   var currentIndex = array.length,
     temporaryValue,
     randomIndex;
@@ -35,9 +34,15 @@ export const generateWords = rightAnswer => {
   let alternative1 = words[generateWord()];
   let alternative2 = words[generateWord()];
 
-  while (alternative2 === alternative1) {
+  while (
+    alternative2 === alternative1 ||
+    alternative1 === rightAnswer.toLowerCase() ||
+    alternative2 === rightAnswer.toLowerCase()
+  ) {
+    alternative1 = words[generateWord()];
     alternative2 = words[generateWord()];
   }
+
   const alternatives = [alternative1, alternative2, rightAnswer];
   return shuffle(alternatives);
 };

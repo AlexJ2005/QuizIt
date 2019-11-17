@@ -77,6 +77,7 @@ export default class MultipleAnswer extends React.Component {
               key={choice}
               onClick={() => this.handeClick(choice)}
               color="primary"
+              data-cy="choice-button"
             >
               {choice}
             </Button>

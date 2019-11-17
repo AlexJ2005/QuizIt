@@ -48,11 +48,13 @@ export default class QuizDashBoard extends React.Component {
             label="Search for quizzes"
             name="searchbar"
             onChange={e => this.searchBarOnChange(e)}
+            data-cy="search-field"
           />
           <Button
             color="primary"
             size="large"
             onClick={() => this.submitQuery()}
+            data-cy="search-button"
           >
             <SearchIcon />
           </Button>
@@ -72,7 +74,11 @@ export default class QuizDashBoard extends React.Component {
             ) : (
               this.state.quizzes.map(quiz => {
                 return (
-                  <Card className="quiz-card" key={quiz._id}>
+                  <Card
+                    className="quiz-card"
+                    data-cy="quiz-card"
+                    key={quiz._id}
+                  >
                     <CardContent>
                       <Typography gutterBottom varaint="h5" component="h2">
                         {quiz.name}
@@ -83,7 +89,11 @@ export default class QuizDashBoard extends React.Component {
                         className="play-button"
                         to={`/quizDashBoard/mode/${quiz._id}`}
                       >
-                        <Button size="small" color="primary">
+                        <Button
+                          data-cy="play-button"
+                          size="small"
+                          color="primary"
+                        >
                           Play
                         </Button>
                       </Link>
