@@ -18,7 +18,7 @@ class App extends React.Component {
         <Switch>
           <div>
             <Navbar />
-            <Ad slot="2434444" />
+
             <Route exact path="/" component={MainPage} />
             <Route exact path="/quizDashBoard" component={QuizDashBoard} />
             <Route exact path="/quizDashBoard/mode/:id" component={Mode} />
