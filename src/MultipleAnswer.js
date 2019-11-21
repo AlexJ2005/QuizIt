@@ -14,7 +14,8 @@ export default class MultipleAnswer extends React.Component {
       choices: [],
       status: "loading",
       currentQuestion: { idx: 0 },
-      rightAnswers: 0
+      answers: [],
+      gotRes: false
     };
     this.fetchQuiz();
   }
@@ -46,23 +47,33 @@ export default class MultipleAnswer extends React.Component {
   };
 
   handeClick = choice => {
-    if (choice === this.state.currentQuestion.answer) {
-      this.setState({ rightAnswers: this.state.rightAnswers + 1 });
-    }
+    let answersCopy = [...this.state.answers];
+    answersCopy.push({ userAnswer: choice });
+    this.setState({ answers: answersCopy });
     this.startQuestion();
   };
 
   render() {
-    const { quiz, currentQuestion, status, choices, rightAnswers } = this.state;
+    const { currentQuestion, status, choices } = this.state;
     if (status === "loading") {
       return <div>...loading</div>;
     }
     if (status === "completed") {
+      axios
+        .post(
+          `https://grim-dungeon-58618.herokuapp.com/quiz/answer/${this.props.match.params.id}`,
+          {
+            allAnswers: this.state.answers,
+            name: window.localStorage.getItem("name")
+          }
+        )
+        .then(res => {
+          console.log(res.data);
+          return <Typography varaint="h4">{res.data.rightAnswers}</Typography>;
+        });
+
       return (
         <div>
-          <Typography variant="h4">
-            du hade {rightAnswers} av {quiz.questions.length} rätt
-          </Typography>
           <Button onClick={() => window.location.reload()}>Spela igen</Button>
           <QuizDashBoard />
         </div>
