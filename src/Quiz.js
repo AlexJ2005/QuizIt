@@ -40,7 +40,7 @@ export default class Quiz extends Component {
         `https://grim-dungeon-58618.herokuapp.com/quiz/answer/${this.props.match.params.id}`,
         {
           allAnswers: this.state.allAnswers,
-          name: window.localStorage.getItem("name")
+          name: window.localStorage.getItem("id")
         }
       )
       .then(response => {

@@ -80,9 +80,10 @@ export default class QuizDashBoard extends React.Component {
                     key={quiz._id}
                   >
                     <CardContent>
-                      <Typography gutterBottom varaint="h5" component="h2">
+                      <Typography gutterBottom variant="h5">
                         {quiz.name}
                       </Typography>
+                      <Typography variant="h6">{quiz.createdBy}</Typography>
                     </CardContent>
                     <CardActions>
                       <Link

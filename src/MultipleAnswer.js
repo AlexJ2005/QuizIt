@@ -31,7 +31,7 @@ export default class MultipleAnswer extends React.Component {
       });
   };
 
-  startQuestion = () => {
+  startQuestion = async () => {
     //set set a random question
     let { quiz, currentQuestion } = this.state;
     const { idx } = currentQuestion;
@@ -39,7 +39,7 @@ export default class MultipleAnswer extends React.Component {
       return this.setState({ status: "completed" });
     }
     const { answer, text } = quiz.questions[idx];
-    const choices = generateWords(answer);
+    const choices = await generateWords(answer);
     this.setState({
       choices,
       currentQuestion: { idx: idx + 1, answer, text }
@@ -53,6 +53,10 @@ export default class MultipleAnswer extends React.Component {
     this.startQuestion();
   };
 
+  returnScore = res => {
+    return <Typography variant="h4">{res.data.rightAnswers}</Typography>;
+  };
+
   render() {
     const { currentQuestion, status, choices } = this.state;
     if (status === "loading") {
@@ -64,12 +68,11 @@ export default class MultipleAnswer extends React.Component {
           `https://grim-dungeon-58618.herokuapp.com/quiz/answer/${this.props.match.params.id}`,
           {
             allAnswers: this.state.answers,
-            name: window.localStorage.getItem("name")
+            name: window.localStorage.getItem("id")
           }
         )
         .then(res => {
-          console.log(res.data);
-          return <Typography varaint="h4">{res.data.rightAnswers}</Typography>;
+          return this.returnScore(res);
         });
 
       return (
@@ -82,18 +85,20 @@ export default class MultipleAnswer extends React.Component {
     return (
       <div>
         <Typography>{currentQuestion.text}</Typography>
-        {choices.map(choice => {
-          return (
-            <Button
-              key={choice}
-              onClick={() => this.handeClick(choice)}
-              color="primary"
-              data-cy="choice-button"
-            >
-              {choice}
-            </Button>
-          );
-        })}
+        {choices.length > 2
+          ? choices.map(choice => {
+              return (
+                <Button
+                  key={choice}
+                  onClick={() => this.handeClick(choice)}
+                  color="primary"
+                  data-cy="choice-button"
+                >
+                  {choice}
+                </Button>
+              );
+            })
+          : null}
       </div>
     );
   }

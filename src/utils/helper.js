@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const words = [
   "frankrike",
   "brasilien",
@@ -26,23 +28,26 @@ export const shuffle = array => {
   return array;
 };
 
-const generateWord = () => {
-  return Math.floor(Math.random() * words.length);
+const generateWord = async name => {
+  let request = await axios.get(
+    `https://api.datamuse.com/words?ml=${name}&max=10`
+  );
+  let data = request.data;
+
+  let randomItem = data[Math.floor(Math.random() * request.data.length)];
+  return randomItem.word;
 };
 
-export const generateWords = rightAnswer => {
-  let alternative1 = words[generateWord()];
-  let alternative2 = words[generateWord()];
+export const generateWords = async rightAnswer => {
+  const translatedAnswer = await axios.get(
+    `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20191125T152203Z.b4490ae6b0dce9c7.8bff6aff5cd24374a261071ab769f7e12c0928b3&lang=en&text=${rightAnswer}`
+  );
+  let realAnswer = translatedAnswer.data.text;
 
-  while (
-    alternative2 === alternative1 ||
-    alternative1 === rightAnswer.toLowerCase() ||
-    alternative2 === rightAnswer.toLowerCase()
-  ) {
-    alternative1 = words[generateWord()];
-    alternative2 = words[generateWord()];
-  }
+  let alternative1 = await generateWord(realAnswer);
+  let alternative2 = await generateWord(realAnswer);
 
   const alternatives = [alternative1, alternative2, rightAnswer];
+  console.log(alternatives);
   return shuffle(alternatives);
 };

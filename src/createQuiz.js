@@ -57,7 +57,8 @@ const createQuiz = () => {
       axios
         .post("https://grim-dungeon-58618.herokuapp.com/createQuiz", {
           name,
-          questions
+          questions,
+          id: localStorage.getItem("id")
         })
         .then(res => {
           setQuizId(res.data._id);
@@ -98,6 +99,7 @@ const createQuiz = () => {
         variant="outlined"
         id="outlined-basic"
         name="name"
+        data-cy="name-form"
         onChange={e => onNameChange(e)}
       />
       <br />
@@ -109,16 +111,19 @@ const createQuiz = () => {
               label="question"
               margin="normal"
               name="text"
+              data-cy="question"
             />
             <TextField
               onChange={e => answerChanged(e, index)}
               label="answer"
               margin="normal"
               name="answer"
+              data-cy="answer"
             />
             <Button onClick={() => deleteQuestion(question)}>
               <DeleteIcon />
             </Button>
+
             {questionsError ? (
               <div style={{ color: "red", margin: "0" }}>
                 <p>{questionsError}</p>
@@ -132,11 +137,16 @@ const createQuiz = () => {
         size="medium"
         variant="text"
         title="Add a new question"
+        data-cy="add-question"
       >
         <Icon color="primary">add_circle</Icon>
       </Button>
       <br />
-      <Button color="primary" onClick={() => sendQuiz(questions)}>
+      <Button
+        data-cy="create-quiz"
+        color="primary"
+        onClick={() => sendQuiz(questions)}
+      >
         Create your quiz
       </Button>
     </div>

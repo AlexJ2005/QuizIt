@@ -15,7 +15,7 @@ export default function CreateUser() {
       .post("https://grim-dungeon-58618.herokuapp.com/createUser", { name })
       .then(res => {
         if (res.status === 200) {
-          window.localStorage.setItem("name", res.data);
+          window.localStorage.setItem("id", res.data);
         }
       })
       .catch(err => console.log(err));
@@ -23,7 +23,7 @@ export default function CreateUser() {
 
   return (
     <div>
-      {window.localStorage.getItem("name") ? (
+      {window.localStorage.getItem("id") ? (
         <div>you are signed in</div>
       ) : (
         <div>
