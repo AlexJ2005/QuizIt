@@ -38,10 +38,13 @@ export default class Quiz extends Component {
 
   answerQuiz = e => {
     axios
-      .post(`http://localhost:5000/quiz/answer/${this.props.match.params.id}`, {
-        allAnswers: this.state.allAnswers,
-        name: window.localStorage.getItem("id")
-      })
+      .post(
+        `https://grim-dungeon-58618.herokuapp.com/quiz/answer/${this.props.match.params.id}`,
+        {
+          allAnswers: this.state.allAnswers,
+          name: window.localStorage.getItem("id")
+        }
+      )
       .then(response => {
         this.setState({
           gotAnswerFeedBack: true,
