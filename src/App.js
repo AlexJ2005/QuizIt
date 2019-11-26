@@ -10,6 +10,7 @@ import Ad from "./Ad";
 import MultipleAnswer from "./MultipleAnswer";
 import Mode from "./Mode";
 import CreateUser from "./CreateUser";
+import QuizResults from "./QuizResults";
 
 class App extends React.Component {
   render() {
@@ -18,7 +19,11 @@ class App extends React.Component {
         <Switch>
           <div>
             <Navbar />
-
+            <Route
+              exact
+              path="/quizDashBoard/write/:id/result"
+              component={QuizResults}
+            />
             <Route exact path="/" component={MainPage} />
             <Route exact path="/quizDashBoard" component={QuizDashBoard} />
             <Route exact path="/quizDashBoard/mode/:id" component={Mode} />

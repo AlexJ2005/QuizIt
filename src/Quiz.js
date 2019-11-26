@@ -5,6 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
+import { Redirect } from "react-router-dom";
 import "./App.css";
 
 export default class Quiz extends Component {
@@ -15,7 +16,8 @@ export default class Quiz extends Component {
       quiz: {},
       allAnswers: [],
       gotAnswerFeedBack: false,
-      answerFeedBack: []
+      answerFeedBack: [],
+      redirect: false
     };
   }
 
@@ -36,17 +38,15 @@ export default class Quiz extends Component {
 
   answerQuiz = e => {
     axios
-      .post(
-        `https://grim-dungeon-58618.herokuapp.com/quiz/answer/${this.props.match.params.id}`,
-        {
-          allAnswers: this.state.allAnswers,
-          name: window.localStorage.getItem("id")
-        }
-      )
+      .post(`http://localhost:5000/quiz/answer/${this.props.match.params.id}`, {
+        allAnswers: this.state.allAnswers,
+        name: window.localStorage.getItem("id")
+      })
       .then(response => {
         this.setState({
           gotAnswerFeedBack: true,
-          answerFeedBack: response.data.answerFeedBack
+          answerFeedBack: response.data.answerFeedBack,
+          redirect: true
         });
       });
   };
@@ -58,7 +58,18 @@ export default class Quiz extends Component {
   };
 
   render() {
-    let { quiz } = this.state;
+    let { quiz, redirect } = this.state;
+
+    if (redirect === true) {
+      return (
+        <Redirect
+          to={{
+            pathname: "createQuiz/result",
+            state: { answerFeedBack: this.state.answerFeedBack, quiz }
+          }}
+        />
+      );
+    }
 
     return (
       <div className="questions">
@@ -89,46 +100,6 @@ export default class Quiz extends Component {
           <Button color="primary" onClick={e => this.answerQuiz(e)}>
             Submit your answer
           </Button>
-
-          {this.state.gotAnswerFeedBack === false ? (
-            <p>No answer is submitted</p>
-          ) : (
-            <div>
-              {" "}
-              {this.state.answerFeedBack.map((feedBack, index) => {
-                const key = Object.keys(feedBack);
-                const wrongAnswerStyle = {
-                  color: "red"
-                };
-                const rightAnswerStyle = {
-                  color: "green"
-                };
-                return (
-                  <div key={index}>
-                    {feedBack[key] === false ? (
-                      <Card>
-                        {" "}
-                        <Typography style={wrongAnswerStyle}>
-                          {" "}
-                          x {this.state.quiz.questions[index].text}{" "}
-                        </Typography>{" "}
-                        {this.state.quiz.questions[index].answer}
-                      </Card>
-                    ) : (
-                      <Card>
-                        {" "}
-                        <Typography style={rightAnswerStyle}>
-                          {" "}
-                          √ {this.state.quiz.questions[index].text}{" "}
-                        </Typography>{" "}
-                        {this.state.quiz.questions[index].answer}
-                      </Card>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
         </div>
       </div>
     );
