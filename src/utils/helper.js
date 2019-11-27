@@ -38,7 +38,7 @@ const generateWord = async name => {
   return randomItem.word;
 };
 
-export const generateWords = async rightAnswer => {
+export const generateWordsAPI = async rightAnswer => {
   const translatedAnswer = await axios.get(
     `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20191125T152203Z.b4490ae6b0dce9c7.8bff6aff5cd24374a261071ab769f7e12c0928b3&lang=en&text=${rightAnswer}`
   );
@@ -47,7 +47,18 @@ export const generateWords = async rightAnswer => {
   let alternative1 = await generateWord(realAnswer);
   let alternative2 = await generateWord(realAnswer);
 
-  const alternatives = [alternative1, alternative2, rightAnswer];
-  console.log(alternatives);
+  const translatedAlt1 = await axios.get(
+    `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20191125T152203Z.b4490ae6b0dce9c7.8bff6aff5cd24374a261071ab769f7e12c0928b3&lang=sv&text=${alternative1}`
+  );
+  const translatedAlt2 = await axios.get(
+    `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20191125T152203Z.b4490ae6b0dce9c7.8bff6aff5cd24374a261071ab769f7e12c0928b3&lang=sv&text=${alternative2}`
+  );
+
+  const alternatives = [
+    translatedAlt1.data.text,
+    translatedAlt2.data.text,
+    rightAnswer
+  ];
+
   return shuffle(alternatives);
 };
