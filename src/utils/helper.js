@@ -47,18 +47,37 @@ export const generateWordsAPI = async rightAnswer => {
   let alternative1 = await generateWord(realAnswer);
   let alternative2 = await generateWord(realAnswer);
 
-  const translatedAlt1 = await axios.get(
+  let translatedAlt1 = await axios.get(
     `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20191125T152203Z.b4490ae6b0dce9c7.8bff6aff5cd24374a261071ab769f7e12c0928b3&lang=sv&text=${alternative1}`
   );
-  const translatedAlt2 = await axios.get(
+  let translatedAlt2 = await axios.get(
     `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20191125T152203Z.b4490ae6b0dce9c7.8bff6aff5cd24374a261071ab769f7e12c0928b3&lang=sv&text=${alternative2}`
   );
 
+  if (translatedAlt1.data.text[0] === rightAnswer) {
+    console.log("Alt 1 is duplicate");
+    alternative1 = await generateWord(realAnswer);
+    translatedAlt1 = await axios.get(
+      `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20191125T152203Z.b4490ae6b0dce9c7.8bff6aff5cd24374a261071ab769f7e12c0928b3&lang=sv&text=${alternative1}`
+    );
+  } else if (translatedAlt2.data.text[0] === rightAnswer) {
+    console.log("Alternative 2 is a duplicate");
+    alternative2 = await generateWord(realAnswer);
+    translatedAlt2 = await axios.get(
+      `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20191125T152203Z.b4490ae6b0dce9c7.8bff6aff5cd24374a261071ab769f7e12c0928b3&lang=sv&text=${alternative2}`
+    );
+  } else if (translatedAlt1.data.text[0] === translatedAlt2.data.text[0]) {
+    console.log("Alt 2 is a duplicate");
+    alternative2 = await generateWord(realAnswer);
+    translatedAlt2 = await axios.get(
+      `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20191125T152203Z.b4490ae6b0dce9c7.8bff6aff5cd24374a261071ab769f7e12c0928b3&lang=sv&text=${alternative2}`
+    );
+  }
+
   const alternatives = [
-    translatedAlt1.data.text,
-    translatedAlt2.data.text,
+    translatedAlt1.data.text[0],
+    translatedAlt2.data.text[0],
     rightAnswer
   ];
-
   return shuffle(alternatives);
 };

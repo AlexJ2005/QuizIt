@@ -6,7 +6,7 @@ import MainPage from "./MainPage";
 import createQuiz from "./createQuiz";
 import Result from "./Result";
 import Navbar from "./Navbar";
-import Ad from "./Ad";
+import Scores from "./Scores";
 import MultipleAnswer from "./MultipleAnswer";
 import Mode from "./Mode";
 import CreateUser from "./CreateUser";
@@ -24,6 +24,7 @@ class App extends React.Component {
               path="/quizDashBoard/write/:id/result"
               component={QuizResults}
             />
+            <Route exact path="/quizDashBoard/scores/:id" component={Scores} />
             <Route exact path="/" component={MainPage} />
             <Route exact path="/quizDashBoard" component={QuizDashBoard} />
             <Route exact path="/quizDashBoard/mode/:id" component={Mode} />

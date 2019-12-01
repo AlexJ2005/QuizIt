@@ -15,7 +15,7 @@ export default class MultipleAnswer extends React.Component {
       status: "loading",
       currentQuestion: { idx: 0 },
       answers: [],
-      gotRes: false
+      answerRes: []
     };
     this.fetchQuiz();
   }
@@ -59,10 +59,6 @@ export default class MultipleAnswer extends React.Component {
     this.startQuestion();
   };
 
-  returnScore = res => {
-    return <Typography variant="h4">{res.data.rightAnswers}</Typography>;
-  };
-
   render() {
     const { currentQuestion, status, choices } = this.state;
     if (status === "loading") {
@@ -78,11 +74,18 @@ export default class MultipleAnswer extends React.Component {
           }
         )
         .then(res => {
-          return this.returnScore(res);
+          this.setState({
+            status: "finished",
+            answerRes: res.data.rightAnswers
+          });
         });
-
+    }
+    if (status === "finished") {
       return (
         <div>
+          <Typography variant="h4">
+            Du hade {this.state.answerRes} rätt
+          </Typography>
           <Button onClick={() => window.location.reload()}>Spela igen</Button>
           <QuizDashBoard />
         </div>

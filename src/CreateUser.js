@@ -21,10 +21,21 @@ export default function CreateUser() {
       .catch(err => console.log(err));
   };
 
+  const logout = () => {
+    if (window.localStorage.getItem("id")) {
+      localStorage.removeItem("id");
+      window.location.reload();
+    }
+    return;
+  };
+
   return (
     <div>
       {window.localStorage.getItem("id") ? (
-        <div>you are signed in</div>
+        <div>
+          <div>you are signed in</div>
+          <Button onClick={() => logout()}>Logout</Button>
+        </div>
       ) : (
         <div>
           <TextField

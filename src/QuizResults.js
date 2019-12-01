@@ -2,14 +2,11 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import { Button } from "@material-ui/core";
-import { Link } from "react-router-dom";
 
 export default function QuizResults(props) {
   return (
-    <div>
-      {props.location.state.gotAnswerFeedBack === false ? (
-        <p>No answer is submitted</p>
-      ) : (
+    <div style={{ alignItems: "center" }}>
+      {props.location.state.gotAnswerFeedBack === false ? null : (
         <div>
           {" "}
           {props.location.state.answerFeedBack.map((feedBack, index) => {
@@ -21,7 +18,7 @@ export default function QuizResults(props) {
               color: "green"
             };
             return (
-              <div key={index}>
+              <div key={index} style={{ textAlign: "center" }}>
                 {feedBack[key] === false ? (
                   <Card>
                     {" "}
@@ -47,7 +44,12 @@ export default function QuizResults(props) {
         </div>
       )}
 
-      <Button onClick={() => props.history.goBack()}>Play again</Button>
+      <Button
+        style={{ alignItems: "center" }}
+        onClick={() => props.history.goBack()}
+      >
+        Play again
+      </Button>
     </div>
   );
 }

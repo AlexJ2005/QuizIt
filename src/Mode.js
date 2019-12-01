@@ -22,6 +22,14 @@ export default function Mode(props) {
           <Button>Multiple choices</Button>
         </Link>
       </Card>
+      <Card className="gameMode-items">
+        <Link
+          style={{ textDecoration: "none" }}
+          to={`/quizDashBoard/scores/${props.match.params.id}`}
+        >
+          <Button>View Scores</Button>
+        </Link>
+      </Card>
     </div>
   );
 }
