@@ -27,7 +27,7 @@ export default function Navbar() {
           </Typography>
           <Typography variant="h6">
             <Link className="navbar-links" to="/createUser">
-              Create a your account
+              Create your account
             </Link>
           </Typography>
           <Typography variant="h6">
