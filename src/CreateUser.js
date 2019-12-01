@@ -16,6 +16,7 @@ export default function CreateUser() {
       .then(res => {
         if (res.status === 200) {
           window.localStorage.setItem("id", res.data);
+          window.location.reload();
         }
       })
       .catch(err => console.log(err));
