@@ -11,6 +11,8 @@ import MultipleAnswer from "./MultipleAnswer";
 import Mode from "./Mode";
 import CreateUser from "./CreateUser";
 import QuizResults from "./QuizResults";
+import Login from "./Login";
+import User from "./User";
 
 class App extends React.Component {
   render() {
@@ -33,7 +35,9 @@ class App extends React.Component {
               path="/quizDashBoard/multipleAnswer/:id"
               component={MultipleAnswer}
             />
+            <Route exact path="/user" component={User} />
             <Route exact path="/createUser" component={CreateUser} />
+            <Route exact path="/createUser/login" component={Login} />
             <Route exact path="/quizDashBoard/write/:id" component={Quiz} />
             <Route exact path="/createQuiz" component={createQuiz} />
             <Route exact path="/createQuiz/result" component={Result} />

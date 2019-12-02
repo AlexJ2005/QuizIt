@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function CreateUser() {
@@ -20,19 +21,13 @@ export default function CreateUser() {
     }
   }, []);
 
-  const getUser = () => {
-    const id = window.localStorage.getItem("id");
-    axios
-      .get(`https://grim-dungeon-58618.herokuapp.com/user/${id}`)
-      .then(res => setUser(res.data));
-  };
-
   const onSubmit = e => {
     axios
       .post("https://grim-dungeon-58618.herokuapp.com/createUser", { name })
       .then(res => {
         if (res.status === 200) {
-          const id = window.localStorage.setItem("id", res.data);
+          console.log(res.data);
+          window.localStorage.setItem("id", res.data);
           window.location.reload();
         }
       })
@@ -61,7 +56,13 @@ export default function CreateUser() {
             placeholder="Enter your name"
             onChange={e => onChange(e)}
           />
-          <Button onClick={e => onSubmit(e)}>Enter</Button>
+          <Button color="primary" onClick={e => onSubmit(e)}>
+            Enter
+          </Button>
+          <br />
+          <Link style={{ textDecoration: "none" }} to={`/createUser/login`}>
+            <Button color="primary">Already have an account?</Button>
+          </Link>
         </div>
       )}
     </div>

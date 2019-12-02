@@ -31,6 +31,11 @@ export default function Navbar() {
             </Link>
           </Typography>
           <Typography variant="h6">
+            <Link className="navbar-links" to="/user">
+              User
+            </Link>
+          </Typography>
+          <Typography variant="h6">
             <a
               className="navbar-links"
               href="https://github.com/AlexJ2005/QuizIt"
