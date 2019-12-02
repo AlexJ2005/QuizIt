@@ -22,7 +22,12 @@ export default function User() {
   return (
     <div>
       {secretKey === id ? (
-        <Typography>Your secret key: {secretKey}</Typography>
+        <div>
+          <Typography>Your secret key: {secretKey}</Typography>
+          <Typography>
+            Remeber to never share your key with anyone else
+          </Typography>
+        </div>
       ) : (
         <div>
           <Link to={"/createUser"}>
