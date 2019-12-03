@@ -14,6 +14,8 @@ export default function User() {
         .then(res => {
           if (res.status === 200) {
             setSecretKey(res.data._id);
+          } else {
+            return <Typography>{res.data.err}</Typography>;
           }
         });
     }
