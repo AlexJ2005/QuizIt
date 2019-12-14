@@ -31,6 +31,7 @@ const createQuiz = () => {
 
   const addQuestion = () => {
     setQuestions([...questions, { text: "", answer: "" }]);
+    console.log(questions);
   };
 
   const questionChanged = (e, index) => {
@@ -46,7 +47,8 @@ const createQuiz = () => {
     let answersCopy = [...questions];
     answersCopy.splice(index, 1, {
       text: questions[index].text,
-      answer: e.target.value
+      answer: e.target.value,
+      alternatives: questions[index].alternatives
     });
     setQuestions(answersCopy);
   };
@@ -67,6 +69,20 @@ const createQuiz = () => {
     } else {
       setQuestionsError("Question and answer cannot be blank");
     }
+  };
+
+  const addAlternative = idx => {
+    const questionsCopy = [...questions];
+    questionsCopy[idx].alternatives = [{ text: "" }, { text: "" }];
+    setQuestions(questionsCopy);
+  };
+
+  const alternativeOnChange = (e, indexAlt, indexQuestion) => {
+    const questionsCopy = [...questions];
+    questionsCopy[indexQuestion].alternatives[indexAlt] = {
+      text: e.target.value
+    };
+    setQuestions(questionsCopy);
   };
 
   const deleteQuestion = individualQuestion => {
@@ -120,8 +136,19 @@ const createQuiz = () => {
               name="answer"
               data-cy="answer"
             />
+            <hr />
             <Button onClick={() => deleteQuestion(question)}>
               <DeleteIcon />
+            </Button>
+
+            <Button
+              onClick={() => addAlternative(index)}
+              size="medium"
+              variant="text"
+              title="Add alternatives to this question"
+              data-cy="add-alt"
+            >
+              <Icon color="primary">add_circle</Icon>
             </Button>
 
             {questionsError ? (
@@ -129,6 +156,21 @@ const createQuiz = () => {
                 <p>{questionsError}</p>
               </div>
             ) : null}
+            <br />
+            <div style={{ whiteSpace: "pre" }}>
+              {question.alternatives
+                ? question.alternatives.map((alt, idx) => {
+                    return (
+                      <div>
+                        <TextField
+                          onChange={e => alternativeOnChange(e, idx, index)}
+                          placeholder="Add an alternative"
+                        />
+                      </div>
+                    );
+                  })
+                : null}
+            </div>
           </div>
         );
       })}

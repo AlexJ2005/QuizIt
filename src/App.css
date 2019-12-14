@@ -4,6 +4,9 @@
   height: 100%;
 }
 
+hr {
+  border-top: 3px double #8c8b8b;
+}
 .gameMode {
   display: flex;
   justify-content: center;

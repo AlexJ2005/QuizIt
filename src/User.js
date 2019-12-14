@@ -4,7 +4,9 @@ import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 export default function User() {
-  const [secretKey, setSecretKey] = useState("");
+  const [user, setUser] = useState({});
+  const [userAuth, setUserAuth] = useState("");
+  const [loading, setLoading] = useState(true);
   const id = localStorage.getItem("id");
 
   useEffect(() => {
@@ -13,25 +15,22 @@ export default function User() {
         .get(`https://grim-dungeon-58618.herokuapp.com/user/${id}`)
         .then(res => {
           if (res.status === 200) {
-            setSecretKey(res.data._id);
+            setUser({ key: res.data._id, name: res.data.name });
           } else {
             return <Typography>{res.data.err}</Typography>;
           }
         });
+    } else {
+      setUserAuth("You are not logged in, please signup or login");
+      setLoading(false);
     }
   }, []);
 
   return (
     <div>
-      {secretKey === id ? (
+      {id === null ? (
         <div>
-          <Typography>Your secret key: {secretKey}</Typography>
-          <Typography>
-            Remeber to never share your key with anyone else
-          </Typography>
-        </div>
-      ) : (
-        <div>
+          <Typography>{userAuth}</Typography>
           <Link to={"/createUser"}>
             <Typography>Create an account</Typography>
           </Link>
@@ -40,6 +39,20 @@ export default function User() {
               If you already have an account you can login
             </Typography>
           </Link>
+        </div>
+      ) : (
+        <div>
+          {loading === true ? (
+            <Typography>loading...</Typography>
+          ) : (
+            <div>
+              <Typography variant="h3">{user.name}</Typography>
+              <Typography>Your secret key: {user.key}</Typography>
+              <Typography>
+                Remeber to never share your key with anyone else
+              </Typography>
+            </div>
+          )}
         </div>
       )}
     </div>

@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import { generateWordsAPI } from "./utils/helper";
+import { generateWordsAPI, shuffle } from "./utils/helper";
 import QuizDashBoard from "./quizDashBoard";
 
 export default class MultipleAnswer extends React.Component {
@@ -39,13 +39,22 @@ export default class MultipleAnswer extends React.Component {
       return this.setState({ status: "completed" });
     }
     const { answer, text } = quiz.questions[idx];
-    const choices = await generateWordsAPI(answer);
-    const answers = [];
+    console.log(quiz);
+    let choices;
+    if (
+      !quiz.questions[idx].alternatives ||
+      quiz.questions[idx].alternatives.length === 0
+    ) {
+      choices = generateWordsAPI(answer);
+    } else if (quiz.questions[idx].alternatives.length === 2) {
+      choices = shuffle([
+        answer,
+        quiz.questions[idx].alternatives[0].text,
+        quiz.questions[idx].alternatives[1].text
+      ]);
+    }
 
-    quiz.questions.forEach(question => {
-      answers.push(question.answer);
-    });
-
+    console.log(choices);
     this.setState({
       choices,
       currentQuestion: { idx: idx + 1, answer, text }

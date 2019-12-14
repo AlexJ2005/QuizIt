@@ -22,21 +22,22 @@ export default class QuizDashBoard extends React.Component {
   }
 
   fetchQuiz = () => {
-    axios.get("https://grim-dungeon-58618.herokuapp.com").then(response => {
-      this.setState({ loading: !this.state.loading, quizzes: response.data });
+    axios.get(`https://grim-dungeon-58618.herokuapp.com`).then(res => {
+      this.setState({ quizzes: res.data, loading: false });
     });
   };
 
   submitQuery = () => {
     axios
       .get(`https://grim-dungeon-58618.herokuapp.com?name=${this.state.query}`)
-      .then(response => this.setState({ quizzes: response.data }));
+      .then(response =>
+        this.setState({ quizzes: response.data, loading: !this.state.loading })
+      );
   };
 
   searchBarOnChange = e => {
     e.preventDefault();
     this.setState({ query: e.target.value });
-    console.log(this.state.query);
   };
   render() {
     return (
@@ -63,46 +64,37 @@ export default class QuizDashBoard extends React.Component {
             <div style={{ alignContent: "center" }}>
               <Typography>No quizzes were found</Typography>{" "}
             </div>
-          ) : (
-            <div></div>
-          )}
+          ) : null}
         </div>
+
         <div className="quizzes">
-          <div className="quiz-container">
-            {this.state.loading ? (
-              <div>loading...</div>
-            ) : (
-              this.state.quizzes.map(quiz => {
-                return (
-                  <Card
-                    className="quiz-card"
-                    data-cy="quiz-card"
-                    key={quiz._id}
-                  >
-                    <CardContent>
-                      <Typography gutterBottom variant="h5">
-                        {quiz.name}
-                      </Typography>
-                      <Typography variant="h6">{quiz.createdBy}</Typography>
-                    </CardContent>
-                    <CardActions>
-                      <Link
-                        className="play-button"
-                        to={`/quizDashBoard/mode/${quiz._id}`}
+          <div style={{ textAlign: "center" }} className="quiz-container">
+            {this.state.quizzes.map(quiz => {
+              return (
+                <Card className="quiz-card" data-cy="quiz-card" key={quiz._id}>
+                  <CardContent>
+                    <Typography gutterBottom variant="h5">
+                      {quiz.name}
+                    </Typography>
+                    <Typography variant="h6">{quiz.createdBy}</Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Link
+                      className="play-button"
+                      to={`/quizDashBoard/mode/${quiz._id}`}
+                    >
+                      <Button
+                        data-cy="play-button"
+                        size="small"
+                        color="primary"
                       >
-                        <Button
-                          data-cy="play-button"
-                          size="small"
-                          color="primary"
-                        >
-                          Play
-                        </Button>
-                      </Link>
-                    </CardActions>
-                  </Card>
-                );
-              })
-            )}
+                        Play
+                      </Button>
+                    </Link>
+                  </CardActions>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </div>
