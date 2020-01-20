@@ -81,3 +81,14 @@ export const generateWordsAPI = async rightAnswer => {
   ];
   return shuffle(alternatives);
 };
+
+export const countRightAnswers = resArray => {
+  let rightAnswers = 0;
+  resArray.forEach(res => {
+    const key = Object.keys(res);
+    if (res[key] === true) {
+      rightAnswers++;
+    }
+  });
+  return rightAnswers;
+};

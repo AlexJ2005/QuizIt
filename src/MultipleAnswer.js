@@ -2,8 +2,9 @@ import React from "react";
 import axios from "axios";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import { generateWordsAPI, shuffle } from "./utils/helper";
+import { generateWordsAPI, shuffle, countRightAnswers } from "./utils/helper";
 import QuizDashBoard from "./quizDashBoard";
+import { List, ListItem, ListItemText } from "@material-ui/core";
 
 export default class MultipleAnswer extends React.Component {
   constructor(props) {
@@ -85,7 +86,7 @@ export default class MultipleAnswer extends React.Component {
         .then(res => {
           this.setState({
             status: "finished",
-            answerRes: res.data.rightAnswers
+            answerRes: countRightAnswers(res.data.answerFeedBack)
           });
         });
     }
@@ -101,22 +102,25 @@ export default class MultipleAnswer extends React.Component {
       );
     }
     return (
-      <div>
-        <Typography>{currentQuestion.text}</Typography>
-        {choices.length > 2
-          ? choices.map(choice => {
-              return (
-                <Button
-                  key={choice}
-                  onClick={() => this.handeClick(choice)}
-                  color="primary"
-                  data-cy="choice-button"
-                >
-                  {choice}
-                </Button>
-              );
-            })
-          : null}
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <List>
+          <Typography>{currentQuestion.text}</Typography>
+          {choices.length > 2
+            ? choices.map(choice => {
+                return (
+                  <ListItem
+                    button
+                    key={choice}
+                    onClick={() => this.handeClick(choice)}
+                    color="primary"
+                    data-cy="choice-button"
+                  >
+                    <ListItemText>{choice}</ListItemText>
+                  </ListItem>
+                );
+              })
+            : null}
+        </List>
       </div>
     );
   }
