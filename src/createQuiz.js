@@ -63,7 +63,7 @@ const createQuiz = () => {
           id: localStorage.getItem("id")
         })
         .then(res => {
-          setQuizId(res.data._id);
+          setQuizId(res.data.quiz._id);
           setRedirect(true);
         });
     } else {
