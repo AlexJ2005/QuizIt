@@ -152,17 +152,20 @@ export default class Quiz extends Component {
                       {Object.keys(this.state.answerFeedBack[this.state.index])}
                     </Typography>
                     <Typography variant="h6">√ {this.state.answer}</Typography>
-                    <Button
-                      onClick={() =>
-                        this.setState({
-                          showResult: false,
-                          answer: "",
-                          index: this.state.index + 1,
-                        })
-                      }
-                    >
-                      Proceed to next question
-                    </Button>
+                    <form>
+                      <Button
+                        type="submit"
+                        onClick={() =>
+                          this.setState({
+                            showResult: false,
+                            answer: "",
+                            index: this.state.index + 1,
+                          })
+                        }
+                      >
+                        Proceed to next question
+                      </Button>
+                    </form>
                   </div>
                 </Modal>
               ) : (
