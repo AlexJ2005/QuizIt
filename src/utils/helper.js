@@ -83,6 +83,7 @@ export const generateWordsAPI = async rightAnswer => {
 };
 
 export const countRightAnswers = resArray => {
+  console.log(resArray)
   let rightAnswers = 0;
   resArray.forEach(res => {
     const key = Object.keys(res);

@@ -1,3 +1,8 @@
+
+body{
+  background-color: #F4F4F4;
+}
+
 .search-container {
   margin-top: 1rem;
   text-align: center;
@@ -15,6 +20,13 @@ hr {
 .gameMode-items {
   width: 50%;
   text-align: center;
+  height: 10rem;
+  margin: 0px 10px;
+}
+
+
+.elevation{
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
 }
 
 /*Mobile settings*/
@@ -31,6 +43,10 @@ hr {
   .create-quiz-form {
     display: flex;
     justify-content: space-around;
+    background-color: white;
+    border-radius: 10px;
+    width: 50%;
+    margin-bottom: 20px;
   }
 
   .navbar-links {
@@ -94,6 +110,9 @@ hr {
   .create-quiz-form {
     display: flex;
     justify-content: space-around;
+    background-color: white;
+    border-radius: 10px;
+    margin-bottom: 20px;
   }
 
   .navbar-links {
@@ -159,6 +178,9 @@ hr {
   .create-quiz-form {
     display: flex;
     justify-content: space-around;
+    background-color: white;
+    border-radius: 10px;
+    margin-bottom: 20px;
   }
 
   .navbar-links {

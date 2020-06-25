@@ -61,7 +61,7 @@ const createQuiz = () => {
           name,
           questions,
           id: localStorage.getItem("id")
-        })
+        }, {headers: {authToken: localStorage.getItem('token')}})
         .then(res => {
           setQuizId(res.data.quiz._id);
           setRedirect(true);
@@ -121,22 +121,26 @@ const createQuiz = () => {
       <br />
       {questions.map((question, index) => {
         return (
-          <div key={index} className="create-quiz-form">
+          <div key={index} className="create-quiz-form elevation" >
+            <div style={{width: "80%"}}>
             <TextField
               onChange={e => questionChanged(e, index)}
-              label="question"
-              margin="normal"
+              label="Type your question"
               name="text"
               data-cy="question"
+              style={{marginLeft: "30px"}}
+              fullWidth
             />
             <TextField
               onChange={e => answerChanged(e, index)}
-              label="answer"
-              margin="normal"
+              label="Type your answer"
               name="answer"
               data-cy="answer"
+              style={{marginLeft: "30px"}}
+              fullWidth
             />
-            <hr />
+            </div>
+            
             <Button onClick={() => deleteQuestion(question)}>
               <DeleteIcon />
             </Button>

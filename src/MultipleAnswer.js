@@ -16,7 +16,8 @@ export default class MultipleAnswer extends React.Component {
       status: "loading",
       currentQuestion: { idx: 0 },
       answers: [],
-      answerRes: []
+      answerRes: [],
+      rightAmount: 0,
     };
     this.fetchQuiz();
   }
@@ -26,7 +27,7 @@ export default class MultipleAnswer extends React.Component {
       .get(
         `https://grim-dungeon-58618.herokuapp.com/quiz/${this.props.match.params.id}`
       )
-      .then(res => {
+      .then((res) => {
         this.setState({ quiz: res.data, status: "loaded" });
         this.startQuestion();
       });
@@ -40,7 +41,7 @@ export default class MultipleAnswer extends React.Component {
       return this.setState({ status: "completed" });
     }
     const { answer, text } = quiz.questions[idx];
-    console.log(quiz);
+
     let choices;
     if (
       !quiz.questions[idx].alternatives ||
@@ -51,21 +52,23 @@ export default class MultipleAnswer extends React.Component {
       choices = shuffle([
         answer,
         quiz.questions[idx].alternatives[0].text,
-        quiz.questions[idx].alternatives[1].text
+        quiz.questions[idx].alternatives[1].text,
       ]);
     }
 
-    console.log(choices);
     this.setState({
       choices,
-      currentQuestion: { idx: idx + 1, answer, text }
+      currentQuestion: { idx: idx + 1, answer, text },
     });
   };
 
-  handeClick = choice => {
+  handeClick = (choice) => {
     let answersCopy = [...this.state.answers];
     answersCopy.push({ userAnswer: choice });
     this.setState({ answers: answersCopy });
+    if (choice === this.state.currentQuestion.answer) {
+      this.setState({ rightAmount: this.state.rightAmount + 1 });
+    }
     this.startQuestion();
   };
 
@@ -75,26 +78,39 @@ export default class MultipleAnswer extends React.Component {
       return <div>...loading</div>;
     }
     if (status === "completed") {
-      axios
-        .post(
-          `https://grim-dungeon-58618.herokuapp.com/quiz/answer/${this.props.match.params.id}`,
-          {
-            allAnswers: this.state.answers,
-            name: window.localStorage.getItem("id")
-          }
-        )
-        .then(res => {
-          this.setState({
-            status: "finished",
-            answerRes: countRightAnswers(res.data.answerFeedBack)
+      if (localStorage.getItem("token")) {
+        axios
+          .post(
+            `https://grim-dungeon-58618.herokuapp.com/quiz/answer/saveResult`,
+            {
+              _id: this.state.quiz._id,
+              rightAmount: this.state.rightAmount,
+            },
+            { headers: { authToken: localStorage.getItem("token") } }
+          )
+          .then((res) => {
+            this.setState({
+              status: "finished",
+            });
           });
-        });
+      } else if (!localStorage.getItem("token")) {
+        axios
+          .post(
+            "https://grim-dungeon-58618.herokuapp.com/quiz/answer/saveResult/guest",
+            {
+              rightAmount: this.state.rightAmount,
+            }
+          )
+          .then((res) => {
+            this.setState({ status: "finished" });
+          });
+      }
     }
     if (status === "finished") {
       return (
         <div>
           <Typography variant="h4">
-            Du hade {this.state.answerRes} rätt
+            Du hade {this.state.rightAmount} rätt
           </Typography>
           <Button onClick={() => window.location.reload()}>Spela igen</Button>
           <QuizDashBoard />
@@ -106,7 +122,7 @@ export default class MultipleAnswer extends React.Component {
         <List>
           <Typography>{currentQuestion.text}</Typography>
           {choices.length > 2
-            ? choices.map(choice => {
+            ? choices.map((choice) => {
                 return (
                   <ListItem
                     button

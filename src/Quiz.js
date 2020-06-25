@@ -4,7 +4,6 @@ import axios from "axios";
 import TextField from "@material-ui/core/TextField";
 import { Button, Modal } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
 import { Redirect } from "react-router-dom";
 import "./App.css";
 
@@ -19,6 +18,7 @@ export default class Quiz extends Component {
       redirect: false,
       index: 0,
       showResult: false,
+      score: 0
     };
   }
 
@@ -72,6 +72,7 @@ export default class Quiz extends Component {
     if (redirect === true) {
       return (
         <Redirect
+          
           to={{
             pathname: "createQuiz/result",
             state: { answerFeedBack: this.state.answerFeedBack, quiz },

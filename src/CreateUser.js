@@ -1,68 +1,120 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
-import { Button } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Button, FormGroup, InputLabel, Typography } from "@material-ui/core";
+import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 
-export default function CreateUser() {
+export default function CreateUser(props) {
+  const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [user, setUser] = useState({});
-
-  const onChange = e => {
-    setName(e.target.value);
-  };
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
-    if (window.localStorage.getItem("id")) {
-      const id = window.localStorage.getItem("id");
-      axios
-        .get(`https://grim-dungeon-58618.herokuapp.com/user/${id}`)
-        .then(res => setUser(res.data));
+    if (window.localStorage.getItem("token")) {
+      props.history.replace("/user");
     }
   }, []);
 
-  const onSubmit = e => {
+  const createAccount = () => {
     axios
-      .post("https://grim-dungeon-58618.herokuapp.com/createUser", { name })
-      .then(res => {
-        if (res.status === 200) {
-          console.log(res.data);
-          window.localStorage.setItem("id", res.data);
-          window.location.reload();
-        }
+      .post("https://grim-dungeon-58618.herokuapp.com/createUser", {
+        email,
+        name,
+        password,
       })
-      .catch(err => console.log(err));
+      .then((res) => {
+        if (res.status !== 403) {
+          login();
+        } else {
+          alert(res.data);
+        }
+      });
   };
 
-  const logout = () => {
-    if (window.localStorage.getItem("id")) {
-      localStorage.removeItem("id");
-      window.location.reload();
-    }
-    return;
+  const login = () => {
+    axios
+      .post("https://grim-dungeon-58618.herokuapp.com/login", {
+        email,
+        password,
+      })
+      .then((res) => {
+        if (res.status === 400) {
+          alert(res.data);
+        } else if (res.status === 200) {
+          localStorage.setItem("token", res.data);
+          props.history.replace("/user");
+        }
+      });
   };
 
   return (
     <div>
-      {window.localStorage.getItem("id") ? (
+      {window.localStorage.getItem("token") ? (
         <div>
-          <div>Hello {user.name}</div>
-          <div>you are signed in </div>
-          <Button onClick={() => logout()}>Logout</Button>
+          <Redirect to="/user" />
         </div>
       ) : (
-        <div>
-          <TextField
-            placeholder="Enter your name"
-            onChange={e => onChange(e)}
-          />
-          <Button color="primary" onClick={e => onSubmit(e)}>
-            Enter
-          </Button>
-          <br />
-          <Link style={{ textDecoration: "none" }} to={`/createUser/login`}>
-            <Button color="primary">Already have an account?</Button>
-          </Link>
+        <div style={{ textAlign: "center" }}>
+          <div>
+            <Typography variant="h5">Login to exisiting account</Typography>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
+            >
+              <TextField
+                label="Enter your email"
+                variant="outlined"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <TextField
+                label="Enter your password"
+                variant="outlined"
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Button color="primary" variant="contained">
+                Login
+              </Button>
+            </div>
+          </div>
+
+          <div>
+            <Typography variant="h5">Create a new account</Typography>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
+            >
+              <TextField
+                label="Choose email"
+                variant="outlined"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <TextField
+                label="Enter your name"
+                variant="outlined"
+                onChange={(e) => setName(e.target.value)}
+              />
+              <TextField
+                label="Choose password"
+                variant="outlined"
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => createAccount()}
+              >
+                Register
+              </Button>
+            </div>
+          </div>
         </div>
       )}
     </div>
