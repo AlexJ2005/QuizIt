@@ -13,6 +13,8 @@
 
 /server
 
+/cypress
+
 # misc
 .DS_Store
 .env.local
