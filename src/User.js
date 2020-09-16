@@ -8,6 +8,7 @@ import {
   Button,
   ListItem,
   List,
+  Card
 } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
 import { Link } from "react-router-dom";
@@ -92,6 +93,7 @@ export default function User(props) {
                         position: "relative",
                         marginBottom: "10px"
                       }}
+                      className="elevation"
                     >
                       <Link style={{color: 'black', textDecoration: 'none'}} to={`/quizDashboard/mode/${quiz._id}`}>
                         <Typography variant="body1">{quiz.name}</Typography>
@@ -124,6 +126,7 @@ export default function User(props) {
                         textAlign: "center",
                         marginBottom: "10px"
                       }}
+                      className="elevation"
                     >
                       <Typography variant="body1">
                         {quiz.name} - {quiz.rightAmount} point

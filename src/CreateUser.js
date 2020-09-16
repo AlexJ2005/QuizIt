@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
-import { Button, FormGroup, InputLabel, Typography } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 
@@ -75,7 +75,11 @@ export default function CreateUser(props) {
                 type="password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <Button color="primary" variant="contained">
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => login()}
+              >
                 Login
               </Button>
             </div>

@@ -13,6 +13,7 @@ import CreateUser from "./CreateUser";
 import QuizResults from "./QuizResults";
 import Login from "./Login";
 import User from "./User";
+import { FlashCards } from "./FlashCards";
 
 class App extends React.Component {
   render() {
@@ -34,6 +35,11 @@ class App extends React.Component {
               exact
               path="/quizDashBoard/multipleAnswer/:id"
               component={MultipleAnswer}
+            />
+            <Route 
+              exact
+              path="/quizDashBoard/flashCards/:id"
+              component={FlashCards}
             />
             <Route exact path="/user" component={User} />
             <Route exact path="/createUser" component={CreateUser} />

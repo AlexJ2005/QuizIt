@@ -15,6 +15,7 @@ hr {
 .gameMode {
   display: flex;
   justify-content: center;
+  margin-top: 10%;
 }
 
 .gameMode-items {
@@ -39,6 +40,8 @@ hr {
     justify-content: space-around;
     flex-direction: column;
   }
+
+  .gameMode-items
 
   .create-quiz-form {
     display: flex;
@@ -105,6 +108,16 @@ hr {
     align-items: center;
     justify-content: space-around;
     flex-direction: column;
+  }
+  
+  .gameMode{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0px;
+  }
+
+  .gameMode-items{
+    width: 90%;
   }
 
   .create-quiz-form {
