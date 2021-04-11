@@ -16,13 +16,13 @@ export default class QuizDashBoard extends React.Component {
     this.state = {
       loading: true,
       quizzes: [],
-      query: ""
+      query: "",
     };
     this.fetchQuiz();
   }
 
   fetchQuiz = () => {
-    axios.get(`https://grim-dungeon-58618.herokuapp.com`).then(res => {
+    axios.get(`https://grim-dungeon-58618.herokuapp.com`).then((res) => {
       this.setState({ quizzes: res.data, loading: false });
     });
   };
@@ -30,12 +30,12 @@ export default class QuizDashBoard extends React.Component {
   submitQuery = () => {
     axios
       .get(`https://grim-dungeon-58618.herokuapp.com?name=${this.state.query}`)
-      .then(response =>
+      .then((response) =>
         this.setState({ quizzes: response.data, loading: !this.state.loading })
       );
   };
 
-  searchBarOnChange = e => {
+  searchBarOnChange = (e) => {
     e.preventDefault();
     this.setState({ query: e.target.value });
   };
@@ -48,7 +48,7 @@ export default class QuizDashBoard extends React.Component {
             id="outlined-basic"
             label="Search for quizzes"
             name="searchbar"
-            onChange={e => this.searchBarOnChange(e)}
+            onChange={(e) => this.searchBarOnChange(e)}
             data-cy="search-field"
           />
           <Button
@@ -69,7 +69,7 @@ export default class QuizDashBoard extends React.Component {
 
         <div className="quizzes">
           <div style={{ textAlign: "center" }} className="quiz-container">
-            {this.state.quizzes.map(quiz => {
+            {this.state.quizzes.map((quiz) => {
               return (
                 <Card className="quiz-card" data-cy="quiz-card" key={quiz._id}>
                   <CardContent>

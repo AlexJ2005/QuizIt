@@ -18,6 +18,7 @@ export default function Mode(props) {
           guaranteed compatible with the write mode.
         </Typography>
       </Card>
+
       <Card className="gameMode-items">
         <Link
           style={{ textDecoration: "none" }}
@@ -36,20 +37,22 @@ export default function Mode(props) {
           to={`/quizDashBoard/scores/${props.match.params.id}`}
         >
           <Button>View Scores</Button>
-          
         </Link>
-        <Typography variant="body1">This page lets you watch everybodys score on this quiz.</Typography>
+        <Typography variant="body1">
+          This page lets you watch everybodys score on this quiz.
+        </Typography>
       </Card>
       <Card className="gameMode-items">
         <Link
           style={{ textDecoration: "none" }}
           to={`/quizDashBoard/flashCards/${props.match.params.id}`}
-          
         >
           <Button>Flashcards</Button>
-          
         </Link>
-        <Typography variant="body1">This gamemode lets you practice the quiz in peace with no score, perfect for learning the quiz firt time.</Typography>
+        <Typography variant="body1">
+          This gamemode lets you practice the quiz in peace with no score,
+          perfect for learning the quiz firt time.
+        </Typography>
       </Card>
     </div>
   );

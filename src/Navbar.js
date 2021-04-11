@@ -13,29 +13,29 @@ export default function Navbar() {
   return (
     <div>
       <AppBar position="static">
-        <Toolbar variant="dense" style={{position: 'relative'}}>
+        <Toolbar variant="dense" style={{ position: "relative" }}>
           <Link to="/">
             <div>
               <img alt="QuizIt logo" height="50" width="50" src="../Logo.png" />
             </div>
           </Link>
-          <Typography style={{ fontSize: "1.5vw" }}>
+          <Typography style={{ fontSize: "2vw" }}>
             <Link className="navbar-links" to="/createQuiz">
               Create your own quiz
             </Link>
           </Typography>
-          <Typography style={{ fontSize: "1.5vw" }}>
+          <Typography style={{ fontSize: "2vw" }}>
             <Link className="navbar-links" to="/quizDashBoard">
               Play existing quizzes
             </Link>
           </Typography>
-          <Typography style={{ fontSize: "1.5vw" }}>
+          <Typography style={{ fontSize: "2vw" }}>
             <Link className="navbar-links" to="/createUser">
               Create your account
             </Link>
           </Typography>
-          
-          <Typography style={{ fontSize: "1.5vw" }}>
+
+          <Typography style={{ fontSize: "2vw" }}>
             <a
               className="navbar-links"
               href="https://github.com/AlexJ2005/QuizIt"
@@ -43,7 +43,7 @@ export default function Navbar() {
               GitHub
             </a>
           </Typography>
-          <Link className="navbar-links" to="/user" style={{position: "absolute", right: '0px', bottom: "0px", top: "0px"}}>
+          <Link className="navbar-links" to="/user">
             <AccountCircle />
           </Link>
         </Toolbar>
